@@ -17,7 +17,7 @@ class ProcessTheClient(threading.Thread):
         threading.Thread.__init__(self)
 
     def run(self):
-        buffer_size = 32768  # Increased buffer size for large files
+        buffer_size = 32768  
         data_received = ""
         
         while True:
@@ -26,12 +26,11 @@ class ProcessTheClient(threading.Thread):
                 d = data.decode()
                 data_received += d
                 
-                # Process the request when we have a complete command
                 if data_received.endswith("\r\n") or len(d) < buffer_size:
                     hasil = fp.proses_string(data_received.strip())
                     hasil = hasil + "\r\n\r\n"
                     self.connection.sendall(hasil.encode())
-                    data_received = ""  # Reset buffer for next command
+                    data_received = ""  
             else:
                 break
         self.connection.close()

@@ -14,21 +14,15 @@ def send_command(command_str=""):
     try:
         logging.warning(f"sending message ")
         sock.sendall(command_str.encode())
-        # Look for the response, waiting until socket is done (no more data)
-        data_received="" #empty string
+        data_received="" 
         while True:
-            #socket does not receive all data at once, data comes in part, need to be concatenated at the end of process
             data = sock.recv(16)
             if data:
-                #data is not empty, concat with previous content
                 data_received += data.decode()
                 if "\r\n\r\n" in data_received:
                     break
             else:
-                # no more data, stop the process by break
                 break
-        # at this point, data_received (string) will contain all data coming from the socket
-        # to be able to use the data_received as a dict, need to load it using json.loads()
         hasil = json.loads(data_received)
         logging.warning("data received from server:")
         return hasil
@@ -53,7 +47,6 @@ def remote_get(filename=""):
     command_str=f"GET {filename}"
     hasil = send_command(command_str)
     if (hasil['status']=='OK'):
-        #proses file dalam bentuk base64 ke bentuk bytes
         namafile= hasil['data_namafile']
         isifile = base64.b64decode(hasil['data_file'])
         fp = open(namafile,'wb+')
@@ -69,16 +62,12 @@ def remote_upload(filepath=""):
         print(f"Error: File {filepath} not found")
         return False
     
-    # Get just the filename from path
     filename = os.path.basename(filepath)
     
-    # Read and encode file content to base64
     with open(filepath, 'rb') as fp:
         file_content = fp.read()
         file_content_b64 = base64.b64encode(file_content).decode()
     
-    # Create command with filename and base64 content
-    # Note: We wrap filename and content in quotes to handle spaces and special characters
     command_str = f'UPLOAD "{filename}" "{file_content_b64}"'
     
     hasil = send_command(command_str)
