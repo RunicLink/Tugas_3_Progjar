@@ -63,3 +63,5 @@ DELETE
 - GAGAL:
   - status: ERROR
   - data: pesan kesalahan
+
+Fungsionalitas ini menyediakan dua operasi utama untuk manajemen file di server. Operasi UPLOAD bertujuan untuk mengunggah file ke server, dengan parameter berupa nama file dan isi file yang sudah dienkode dalam format base64; hasil dari operasi ini akan mengindikasikan status "OK" beserta pesan sukses jika berhasil, atau "ERROR" dengan pesan kesalahan jika gagal. Sementara itu, operasi DELETE bertujuan untuk menghapus file dari server, dengan parameter berupa nama file yang akan dihapus; serupa dengan UPLOAD, hasil operasinya akan menunjukkan status "OK" dan pesan sukses untuk keberhasilan, atau "ERROR" dan pesan kesalahan jika terjadi kegagalan.
