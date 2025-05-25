@@ -45,13 +45,15 @@ class FileInterface:
     def delete(self,params=[]):
         try:
             if len(params) < 1:
-                return dict(status='ERROR',data='Filename parameter required')    
+                return dict(status='ERROR',data='Filename parameter required')
+                
             filename = params[0]
+            
             if not os.path.exists(filename):
                 return dict(status='ERROR',data=f'File {filename} not found')
+            
             os.remove(filename)
             return dict(status='OK',data=f'File {filename} deleted successfully')
-        
         except Exception as e:
             return dict(status='ERROR',data=str(e))
 
